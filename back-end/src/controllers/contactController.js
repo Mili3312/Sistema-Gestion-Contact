@@ -70,5 +70,7 @@ module.exports={
     getAllContacts,
     createContact,
     getContactById,
-    updateContact
+    updateContact,
+    deleteContact
 }
+
