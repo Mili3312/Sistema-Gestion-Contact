@@ -1,5 +1,11 @@
 const Contact = require('../models/contactModel')
 
+
+
+const validateEmail = (email)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validatePhone = (phone)=>/^\+?\d{10,15}$/.test(phone)
+
+
 //obtener todos los contactos
 const  getAllContacts = async (req, res)=>{
     try {
@@ -23,6 +29,14 @@ const  createContact = async (req, res) => {
         //valida que todos los campos estén presentes
         if(!name || !email || !phone || !address || !birthDate){
             return res.status(400).json({error: "All fields are required"})
+        }
+
+        if (!validateEmail(email)) {
+            return res.status(400).json({message:' The email is not valid '})
+        }
+
+        if (!validatePhone(phone)) {
+            return res.status(400).json({message:'The phone number must be 10 digits'})
         }
 
         const newContact = Contact({name, email, phone, address, birthDate: new Date(birthDate)})
