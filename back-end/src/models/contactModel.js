@@ -7,6 +7,8 @@ const contactSchema = new mongoose.Schema({
     phone:{type:String, required: true},
     address:{type:String, required: true},
     birthDate:{type:Date, required: true},
-});
+},
+{timestamps: true}
+);
 
 module.exports=mongoose.model('Contact', contactSchema);
