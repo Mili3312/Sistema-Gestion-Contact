@@ -12,8 +12,8 @@ const  getAllContacts = async (req, res)=>{
 }
 const  createContact = async (req, res) => {
      try {
-        const {name, email, phone, addres, birthDate} = req.body
-        const newContact = Contact({name, email, phone, addres, birthDate})
+        const {name, email, phone, address, birthDate} = req.body
+        const newContact = Contact({name, email, phone, address, birthDate})
         await newContact.save()
         res.status(201).json(newContact)
      } catch (err) {
