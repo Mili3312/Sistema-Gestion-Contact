@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from "react";
 
-const ContactForm = () => {
+const ContactForm = ({onContactAdded}) => {
+  //Estado para los campos del form
   const [name, setName]= useState('');
   const [email, setEmail]= useState('');
   const [phone, setPhone]= useState('');
@@ -10,6 +11,7 @@ const ContactForm = () => {
   const [errors, setErrors]= useState({});
   const [isLoading, setIsLoading]= useState(false);
 
+  /**manejo del envio del form - validaciones de datos */
   const handleSubmit=async (e) => {
     e.preventDefault();
 
@@ -48,6 +50,7 @@ const ContactForm = () => {
     setIsLoading(true)
     
     try{
+      //crear nuevo contacto petición POST
       const response = await fetch('http://localhost:5000/contacts', {
         method:'POST',
         headers:{'Content-Type': 'application/json'},
@@ -58,6 +61,7 @@ const ContactForm = () => {
       if (response.ok) {
         console.log('New contact created: ', data);
 
+        onContactAdded(data)
         setName('');
         setEmail('');
         setPhone('');

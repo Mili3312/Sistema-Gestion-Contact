@@ -6,6 +6,7 @@ const App = () => {
 
   const [contacts, setContacts]= useState([]);
 
+  //CARGAR CONTACTOS AL SERVIDOR
   const fetchContacts = async()=>{
     try {
       const response =await fetch('http://localhost:5000/contacts')
