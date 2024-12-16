@@ -1,37 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { ContactCard } from "./ContactCard";
-const ContactList = () => {
+import React from 'react'
+import  ContactCard  from "./ContactCard";
 
-  const [contacts, setContacts]= useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]=useState(null)
+const ContactList = ({contacts}) => {
 
-  useEffect(()=>{
-    fetch('http://localhost:5000/contacts')
-    .then((response)=>{
-      if (!response.ok) {
-        throw new Error('Error al intentar obtener los contactos')
-      }
-      return response.json();
-    })
-    .then((data)=>{
-      setContacts(data);
-      setLoading(false)
-    })
-    .catch((error)=>{
-      setError(error.message);
-      setLoading(false)
-    })
-  }, []);
-
-  if (loading) {
-    return <p>cargando contactos...</p>;    
+  if (!contacts || contacts.length ===0) {
+    return <p className='text-center text-gray-600'>No hay contactos disponibles</p>
   }
-  if (error) {
-    return p
-  }
+  
   return (
-    <div className='contact-list'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8'>
       {contacts.map((contact)=>(
         <ContactCard key={contact._id} contact={contact}/>
       ))}
