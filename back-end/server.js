@@ -5,12 +5,14 @@ const connectDB=require('./src/config/db')
 const contactRoutes = require('./src/routes/contactRoutes')
 
 
+//conecta a la base de datos
 connectDB();
 
 
 const app=express();
+app.use(cors());
+//definir rutas para manejar los contactos
 app.use(express.json());
-app.use(cors()),
 
 app.use('/contacts', contactRoutes);
 
