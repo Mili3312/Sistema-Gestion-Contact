@@ -1,12 +1,16 @@
 import React from 'react'
 import { useState } from "react";
 
-const ContactCard = ({contact, onEdit}) => {
+const ContactCard = ({contact, onEdit, onDelete}) => {
     const [showDetails, setShowDetails]= useState(false)
 
     //cambio de estado Mostrar o no los detalles
     const handleToggleDetails = ()=>{
         setShowDetails(prevState=>!prevState);
+    }
+
+    const handleDelete =()=>{
+      onDelete(contact._id)
     }
   return (
     <div className='border p-4 rounded-lg shadow-lg bg-white mb-4'>
@@ -28,6 +32,9 @@ const ContactCard = ({contact, onEdit}) => {
         </button>
         <button onClick={()=> onEdit(contact)} className='text-green-500 hover:text-green-700'>
         ✏️
+        </button>
+        <button onClick={handleDelete} className='text-red 500 hover:text-red-700'>
+            🗑️
         </button>
       </aside>
  
