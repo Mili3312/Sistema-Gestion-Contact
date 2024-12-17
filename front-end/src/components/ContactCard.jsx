@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from "react";
 
-const ContactCard = ({contact}) => {
+const ContactCard = ({contact, onEdit}) => {
     const [showDetails, setShowDetails]= useState(false)
 
     //cambio de estado Mostrar o no los detalles
@@ -22,9 +22,12 @@ const ContactCard = ({contact}) => {
       </header>
 
 {/**mostrar u ocultar detalles */}
-      <aside>
+      <aside className='flex space-x-4'>
         <button className='text-blue-500 font-bold text-xl hover:text-blue-700' onClick={handleToggleDetails}>
             {showDetails ? "▲" : "▼"}
+        </button>
+        <button onClick={()=> onEdit(contact)} className='text-green-500 hover:text-green-700'>
+        ✏️
         </button>
       </aside>
  
