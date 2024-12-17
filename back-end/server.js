@@ -1,15 +1,24 @@
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
+const cors =require('cors')
 const connectDB=require('./src/config/db')
 const contactRoutes = require('./src/routes/contactRoutes')
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 //conecta a la base de datos
 connectDB();
 
 
 const app=express();
 app.use(cors());
+<<<<<<< HEAD
+=======
+//definir rutas para manejar los contactos
+>>>>>>> dev
 app.use(express.json());
 //definir rutas para manejar los contactos
 app.use('/contacts', contactRoutes);

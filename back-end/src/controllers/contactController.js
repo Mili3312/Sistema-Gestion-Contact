@@ -1,5 +1,8 @@
 const Contact = require('../models/contactModel')
 
+const validateEmail = (email)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validatePhone = (phone)=>/^\+?\d{10,15}$/.test(phone)
+
 
 
 const validateEmail = (email)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -23,7 +26,10 @@ const  getAllContacts = async (req, res)=>{
 //crear nuevo contacto
 const  createContact = async (req, res) => {
      try {
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
         const {name, email, phone, address, birthDate} = req.body
 
         //valida que todos los campos estén presentes
@@ -41,7 +47,11 @@ const  createContact = async (req, res) => {
 
         const newContact = Contact({name, email, phone, address, birthDate: new Date(birthDate)})
 
+<<<<<<< HEAD
         //guarda el contacto 
+=======
+         //guarda el contacto 
+>>>>>>> dev
         await newContact.save()
         console.log('POST / contacts new contact created: ',newContact)
         //responde con el nuevo contacto creado
@@ -52,11 +62,18 @@ const  createContact = async (req, res) => {
         res.status(400).json({error: err.message});
      }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 //obtener contacto por id
 const getContactById = async (req, res) => {
     try {
         const {id} = req.params;
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
         console.log(`GET/contacts/${id} - Contact by ID `)
 //busca el contacto por su id
         const contact = await Contact.findById(id)
@@ -68,12 +85,20 @@ const getContactById = async (req, res) => {
         //responde con el contacto encontrado
         res.status(200).json(contact)
     } catch (err) {
+<<<<<<< HEAD
         //si hay un error lo muestra en consola 
         console.log(`GET/contacts/${id} - ERROR `, err.message)
         res.status(500).json({message: "Error fetching contact", error: err.message})
     }
 }
 
+=======
+          //si hay un error lo muestra en consola 
+          console.log(`GET/contacts/${id} - ERROR `, err.message)
+        res.status(500).json({message: "Error fetching contact", error: err.message})
+    }
+}
+>>>>>>> dev
 //actualizar un contacto
 const updateContact = async (req,res) => {
     try {
@@ -82,19 +107,31 @@ const updateContact = async (req,res) => {
 
         console.log(`PUT/contacts/${id} - updating contact `, datos)
 
+<<<<<<< HEAD
         //actualiza el contacto con el id proporcionado
+=======
+         //actualiza el contacto con el id proporcionado
+>>>>>>> dev
         const contact = await Contact.findByIdAndUpdate(id, datos, {
             new: true,
             runValidators:true
         });
 
         if (!contact) {
+<<<<<<< HEAD
             
         console.log(`PUT/contacts/${id} -contact not found`)
             return res.status(404).json({message:"contact not found"})
         }
 
         //responde con el contaacto actualizado
+=======
+
+            console.log(`PUT/contacts/${id} -contact not found`)
+            return res.status(404).json({message:"contact not found"})
+        }
+         //responde con el contaacto actualizado
+>>>>>>> dev
         res.status(200).json(contact)
     } catch (err) {
         //en caso de un error lo muestra en consola
@@ -102,7 +139,10 @@ const updateContact = async (req,res) => {
         res.status(500).json({message:"Error update contact", error:err.message})
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 //eliminar contacto
 const deleteContact = async (req,res)=>{
     try {

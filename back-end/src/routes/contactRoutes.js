@@ -3,6 +3,10 @@ const router = express.Router();
 const contactControler= require('../controllers/contactController')
 
 console.log('cargando rutas')
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 //rutas para manejar los contactos 
 router.get('/', contactControler.getAllContacts);
 router.post('/', contactControler.createContact);
