@@ -6,7 +6,7 @@ const App = () => {
 
   const [contacts, setContacts]= useState([]);
   const [editContact, setEditContact]=useState(null)
-
+ const [showForm, setShowForm]= useState(false)
   //CARGAR CONTACTOS AL SERVIDOR
   const fetchContacts = async()=>{
     try {
@@ -47,17 +47,31 @@ setEditContact(null)
     } catch (error) {
       console.log('no se pudo eliminar el contacto')
     }
+  };
+
+  const toggleForm=()=>{
+    setShowForm((prevState)=> !prevState)
   }
   return (
+    <div className='min-h-screen bg-pink-50'>
     <div className='container mx-auto p-4'>
-      <h1 className='text-3x1 font-bold text-center mb-6'>Lista</h1>
-      <ContactForm onContactAdded={handleContactAdded}
-      onContactEdited={handleContactEdited}
-      editingContact={editContact}/>
+      <h1 className='text-3x1 font-bold text-center mb-6 text-teal-600'>Lista de contactos</h1>
+
+{/**mostrar/ocultar formulario */}
+      <button onClick={toggleForm} className='bg-teal-600 text-white px-4 py-2 rounded-lg mb-4'>
+        {showForm ? 'cerrar formulario' : 'Agregar nuevo contacto'}
+      </button>
+
+{showForm && ( 
+  <ContactForm onContactAdded={handleContactAdded}
+  onContactEdited={handleContactEdited}
+  editingContact={editContact}/>
+)}
 
       <ContactList contacts={contacts} onEdit={setEditContact} onDelete={handleContactDeleted}/>
 
     </div>
+      </div>
   )
 }
 

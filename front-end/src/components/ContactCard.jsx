@@ -12,11 +12,13 @@ const ContactCard = ({contact, onEdit, onDelete}) => {
     const handleDelete =()=>{
       onDelete(contact._id)
     }
+
+    const avatarUrl=`https://picsum.photos/id/423/200/200`
   return (
-    <div className='border p-4 rounded-lg shadow-lg bg-white mb-4'>
+    <div className='border p-4 rounded-lg shadow-lg bg-white mb-4 hover:shadow-2xl transition-shadow duration-300'>
       <header className='flex items-center justify-between'>
         <div className='flex items-center'>
-        <img className='w-12 h-12 rounded-full bg-gray-300 mr-4' src="" alt="avatar" />
+        <img className='w-12 h-12 rounded-full bg-teal-200 mr-4' src={avatarUrl} alt="avatar" />
         </div>
         <div>
           {/**nombre y correo electronico */}
@@ -26,14 +28,14 @@ const ContactCard = ({contact, onEdit, onDelete}) => {
       </header>
 
 {/**mostrar u ocultar detalles */}
-      <aside className='flex space-x-4'>
+      <aside className='flex space-x-4 mt-4'>
         <button className='text-blue-500 font-bold text-xl hover:text-blue-700' onClick={handleToggleDetails}>
             {showDetails ? "▲" : "▼"}
         </button>
         <button onClick={()=> onEdit(contact)} className='text-green-500 hover:text-green-700'>
         ✏️
         </button>
-        <button onClick={handleDelete} className='text-red 500 hover:text-red-700'>
+        <button onClick={handleDelete} className='text-red-500 hover:text-red-700'>
             🗑️
         </button>
       </aside>
