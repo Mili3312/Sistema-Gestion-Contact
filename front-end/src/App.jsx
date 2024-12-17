@@ -18,6 +18,8 @@ const App = () => {
       console.error('No se pudo obtener los contactos')
     }
   };
+
+
   useEffect(()=>{
     fetchContacts()
   },[]);
@@ -30,6 +32,21 @@ const App = () => {
   )
 setEditContact(null)
 
+  };
+
+  const handleContactDeleted = async (contactId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/contacts/${contactId}`,{
+        method:'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Error al eliminar el contacto')
+      }
+
+      setContacts(prevContacts => prevContacts.filter(contact=>contact._id !== contactId)) //Elimina contacto del estado
+    } catch (error) {
+      console.log('no se pudo eliminar el contacto')
+    }
   }
   return (
     <div className='container mx-auto p-4'>
@@ -38,7 +55,7 @@ setEditContact(null)
       onContactEdited={handleContactEdited}
       editingContact={editContact}/>
 
-      <ContactList contacts={contacts} onEdit={setEditContact}/>
+      <ContactList contacts={contacts} onEdit={setEditContact} onDelete={handleContactDeleted}/>
 
     </div>
   )
