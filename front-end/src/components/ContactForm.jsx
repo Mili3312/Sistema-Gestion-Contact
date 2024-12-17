@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from "react";
 
-const ContactForm = ({onContactAdded}) => {
+const ContactForm = ({onContactAdded, onContactEdited, editingContact}) => {
   //Estado para los campos del form
   const [name, setName]= useState('');
   const [email, setEmail]= useState('');
@@ -10,6 +10,18 @@ const ContactForm = ({onContactAdded}) => {
   const [birthDate, setBirthDate]= useState('');
   const [errors, setErrors]= useState({});
   const [isLoading, setIsLoading]= useState(false);
+
+
+  useEffect(()=>{
+    if (editingContact) {
+      setName(editingContact.name);
+      setEmail(editingContact.email);
+      setPhone(editingContact.phone);
+      setAddress(editingContact.address);
+      setBirthDate(editingContact.birthDate);
+    }
+  }, [editingContact])
+
 
   /**manejo del envio del form - validaciones de datos */
   const handleSubmit=async (e) => {
@@ -50,18 +62,33 @@ const ContactForm = ({onContactAdded}) => {
     setIsLoading(true)
     
     try{
-      //crear nuevo contacto petición POST
-      const response = await fetch('http://localhost:5000/contacts', {
-        method:'POST',
-        headers:{'Content-Type': 'application/json'},
-        body:JSON.stringify({name, email, phone, address, birthDate}),
-      });
+      let response;
+      if (editingContact) {
+        //EDITAR CONTACTO
+        response = await fetch(`http://localhost:5000/contacts/${editingContact._id}`, {
+          method:'PUT',
+          headers:{'Content-Type': 'application/json'},
+          body:JSON.stringify({name, email, phone, address, birthDate}),
+        });
+        
+      }else{
+        //CREAR NUEVO CONTACTO
+        response = await fetch('http://localhost:5000/contacts', {
+          method:'POST',
+          headers:{'Content-Type': 'application/json'},
+          body:JSON.stringify({name, email, phone, address, birthDate}),
+        });
+      }
+
       const data=await response.json()
 
       if (response.ok) {
-        console.log('New contact created: ', data);
+        if (editingContact) {
+          onContactEdited(data)
+        }else{   
+          onContactAdded(data)
+        }
 
-        onContactAdded(data)
         setName('');
         setEmail('');
         setPhone('');
@@ -80,7 +107,7 @@ const ContactForm = ({onContactAdded}) => {
   }
   return (
     <div className='max-w-xl mx-auto p-4 bg-white rounded-lg shadow-md'>
-      <h2>Nuevo contacto</h2>
+      <h2>{editingContact ? 'Editar Contacto':'Nuevo contacto'}</h2>
 
       <form onSubmit={handleSubmit} className='space-y-4'>
         <div>
@@ -90,7 +117,7 @@ const ContactForm = ({onContactAdded}) => {
         </div>
 
         <div>
-          <label htmlFor="email" className='block text-lg'> Email </label>
+          <label htmlFor="email" className='block text-lg'> Correo electronico</label>
           <input type="email" name="email" id="email" value={email} onChange={(e)=>setEmail(e.target.value)} className='w-full p-2 border rounded' placeholder='correo electrónico' />
           {errors.email && <p className='text-red-500'>{errors.email}</p>}
         </div>
@@ -118,7 +145,7 @@ const ContactForm = ({onContactAdded}) => {
         <div className='mt-4'>
           <button className='w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400'disabled={isLoading}>
 
-{isLoading ? 'guardando.... ' : 'Agregar contacto'}
+{isLoading ? 'guardando.... ' : editingContact ? 'Actualizar Contacto' : 'Agregar contacto'}
 
           </button>
         </div>
